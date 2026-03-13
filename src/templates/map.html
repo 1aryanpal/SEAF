@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-Time Phishing Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f2027;
+      color: white;
+      font-family: Arial;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 10px;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    #map {
+      flex: 3;
+      height: 90vh;
+    }
+
+    #log-box {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 10px;
+      overflow-y: auto;
+      border-left: 2px solid #1e3c72;
+    }
+
+    .log-entry {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .log-entry p {
+      margin: 3px 0;
+      font-size: 14px;
+    }
+
+    .status-phishing { color: #ff4d4d; font-weight: bold; }
+    .status-safe { color: #00ff88; font-weight: bold; }
+
+    a.back {
+      text-decoration: none;
+      color: #00d9ff;
+      font-size: 15px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2> Phishing Threat Map <a href="/" class="back">← Back to Detector</a></h2>
+
+  <div class="container">
+    <div id="map"></div>
+    <div id="log-box">
+      <h3 style="text-align:center;">📋 Recent Logs</h3>
+      <div id="logs"></div>
+    </div>
+  </div>
+
+  <script>
+    const map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+
+    const logs = {{ logs|tojson }};
+
+    // Plot markers
+    logs.forEach(item => {
+      if (item.lat && item.lon) {
+        const color = item.status === "Phishing" ? "red" : "green";
+        const marker = L.circleMarker([item.lat, item.lon], {
+          radius: 7,
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.8
+        }).addTo(map);
+        marker.bindPopup(`<b>${item.url}</b><br>${item.city || ''}, ${item.country || ''}<br>Status: ${item.status}<br>Checked: ${item.checked_at}`);
+      }
+    });
+
+    // Populate log box
+    const logContainer = document.getElementById('logs');
+    logs.slice().reverse().forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('log-entry');
+      div.innerHTML = `
+        <p><b>URL:</b> ${item.url}</p>
+        <p><b>Location:</b> ${item.city || 'N/A'}, ${item.country || 'N/A'}</p>
+        <p><b>Status:</b> <span class="status-${item.status.toLowerCase()}">${item.status}</span></p>
+        <p><b>Checked:</b> ${item.checked_at}</p>
+      `;
+      logContainer.appendChild(div);
+    });
+
+    // Auto-refresh every 15 seconds
+    setTimeout(() => location.reload(), 15000);
+  </script>
+</body>
+</html>

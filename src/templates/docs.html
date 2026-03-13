@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation — SEAF</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0e1015, #141822);
+      color: #e6e6e6;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ---------- BRAND ---------- */
+    .brand {
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .brand span {
+      font-size: 13px;
+      color: #9aa0a6;
+      letter-spacing: 1px;
+    }
+
+    /* ---------- CARD ---------- */
+    .docs-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 42px 52px;
+      max-width: 900px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+    }
+
+    .docs-card h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .section {
+      margin-top: 28px;
+    }
+
+    .section h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: #9aa0a6;
+      margin-bottom: 10px;
+    }
+
+    .section p {
+      margin: 6px 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #d0d0d0;
+    }
+
+    .section ul {
+      margin: 10px 0 0 18px;
+      padding: 0;
+    }
+
+    .section li {
+      font-size: 15px;
+      color: #d0d0d0;
+      margin: 6px 0;
+      line-height: 1.6;
+    }
+
+    .note {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #9aa0a6;
+      font-size: 14px;
+      color: #cfcfcf;
+    }
+
+    /* ---------- BUTTON ---------- */
+    .home-btn {
+      display: block;
+      margin: 40px auto 0;
+      padding: 12px 30px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .home-btn:hover {
+      background: #e6e6e6;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SEAF Branding -->
+  <div class="brand">
+    <h1>SEAF</h1>
+    <span>Social Engineering Attack Framework</span>
+  </div>
+
+  <!-- Documentation -->
+  <div class="docs-card">
+    <h2>Documentation</h2>
+
+    <div class="section">
+      <h3>Introduction</h3>
+      <p>
+        The Social Engineering Attack Framework (SEAF) is a research-oriented
+        framework designed to study, model, and analyze social engineering
+        attack techniques in a structured and ethical manner.
+      </p>
+      <p>
+        SEAF focuses on understanding human-centric attack vectors rather than
+        exploiting them, enabling researchers and defenders to improve
+        awareness, detection, and mitigation strategies.
+      </p>
+    </div>
+
+    <div class="section">
+      <h3>Objectives</h3>
+      <ul>
+        <li>Provide a structured taxonomy of social engineering techniques</li>
+        <li>Support academic research and cybersecurity education</li>
+        <li>Enable ethical modeling of attack scenarios</li>
+        <li>Improve defensive awareness and training methodologies</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Framework Scope</h3>
+      <p>
+        SEAF is strictly limited to conceptual modeling, simulation,
+        and analysis. It does not provide operational tooling for
+        real-world exploitation.
+      </p>
+      <ul>
+        <li>Attack lifecycle modeling</li>
+        <li>Human behavior analysis</li>
+        <li>Threat categorization</li>
+        <li>Defensive mapping and mitigation strategies</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Intended Audience</h3>
+      <ul>
+        <li>Cybersecurity researchers</li>
+        <li>Academic institutions and students</li>
+        <li>Security awareness trainers</li>
+        <li>Authorized security professionals</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Ethical & Legal Use</h3>
+      <p>
+        SEAF must only be used in environments where explicit authorization
+        has been granted. Any attempt to use the framework for malicious,
+        deceptive, or unauthorized activities is strictly prohibited.
+      </p>
+      <div class="note">
+        SEAF is designed for defense, research, and education — not exploitation.
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Methodology Overview</h3>
+      <p>
+        The framework follows a phased approach to analyzing social
+        engineering scenarios:
+      </p>
+      <ul>
+        <li>Reconnaissance & information gathering (theoretical)</li>
+        <li>Psychological vector identification</li>
+        <li>Attack path modeling</li>
+        <li>Impact assessment</li>
+        <li>Mitigation and awareness mapping</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Updates & Versioning</h3>
+      <p>
+        SEAF documentation and structure may evolve over time as research
+        progresses. Updates are published to improve clarity, accuracy,
+        and ethical safeguards.
+      </p>
+    </div>
+
+    <button class="home-btn" onclick="window.location.href='/'">
+      ← Back to Home
+    </button>
+  </div>
+
+</body>
+</html>
+

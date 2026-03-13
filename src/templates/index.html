@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>S.E.A.F — Social Engineering Attack Framework</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- FOOTER ---------- */
+.site-footer{
+  background:#0b1f33;
+  border-top:1px solid #1e3a5f;
+  padding:24px 36px;
+  margin-top:60px;
+}
+
+.footer-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.footer-logo{
+  font-size:22px;
+  font-weight:700;
+  color:#ffffff;
+  letter-spacing:1px;
+}
+
+.footer-text{
+  font-size:13px;
+  color:#cbd5e1;
+  margin-top:4px;
+}
+
+.footer-links{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+}
+
+.footer-links a{
+  color:#93c5fd;
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+  text-decoration:underline;
+}
+
+.footer-links span{
+  color:#64748b;
+}
+
+.footer-social a{
+  color:white;
+  font-size:18px;
+  margin-left:12px;
+  text-decoration:none;
+}
+
+  :root{
+    --bg:#0b0d10;              /* main background */
+    --card:#15181d;            /* card background */
+    --primary:#e5e7eb;         /* main buttons/text */
+    --muted:#9ca3af;           /* muted text */
+    --accent:#6b7280;          /* subtle accent */
+    --border:#262a32;
+  }
+  *{
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+  }
+  body{
+    margin:0;
+    background:linear-gradient(180deg,#0b0d10 0%,#0f1217 100%);
+    color:#f3f4f6;
+  }
+  /* HEADER */
+ header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  backdrop-filter: blur(8px);
+  background: rgba(15,18,23,0.85);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 28px;
+  border-bottom:1px solid var(--border);
+}
+  header h1{
+    font-size:18px;
+    margin:0;
+    font-weight:600;
+  }
+  nav{
+    display:flex;
+    gap:16px;
+  }
+  nav a{
+  color:#e5e7eb;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:15px;
+  position:relative;
+  transition: all 0.25s ease;
+}
+  nav a.active,
+  nav a:hover{
+    background:#1f2937;
+    color:#ffffff;
+  }
+  /* BUTTONS */
+  .btn{
+    background:#1f2937;
+    color:#f9fafb;
+    border:1px solid var(--border);
+    padding:9px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn:hover{
+    background:#374151;
+  }
+  .btn.secondary{
+    background:transparent;
+    color:#d1d5db;
+  }
+  /* LAYOUT */
+  .container{
+    max-width:1000px;
+    margin:40px auto;
+    padding:0 20px;
+  }
+  .card{
+    background:var(--card);
+    padding:24px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    margin-bottom:20px;
+  }
+  .card h2,
+  .card h3,
+  .card h4{
+    color:#f9fafb;
+  }
+  .small{
+    font-size:14px;
+    color:var(--muted);
+  }
+  /* INPUTS */
+  .input,
+  textarea,
+  select{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0f1217;
+    color:#f3f4f6;
+    font-size:14px;
+    margin-top:8px;
+  }
+  .input::placeholder{
+    color:#6b7280;
+  }
+  .actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+  }
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media(max-width:800px){
+    .grid-2{grid-template-columns:1fr}
+  }
+  /* MODAL */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:60;
+  }
+  .modal{
+    width:420px;
+    background:#111318;
+    border-radius:14px;
+    padding:20px;
+    border:1px solid var(--border);
+  }
+  /* CHAT */
+  #chat-bubble{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    background:#1f2937;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:26px;
+    cursor:pointer;
+    border:1px solid var(--border);
+  }
+  #chat-window{
+    position:fixed;
+    right:24px;
+    bottom:104px;
+    width:340px;
+    height:460px;
+    background:#111318;
+    border-radius:16px;
+    border:1px solid var(--border);
+    display:none;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  #chat-head{
+    background:#0f1217;
+    color:white;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+  }
+  #chat-body{
+    padding:12px;
+    flex:1;
+    overflow:auto;
+    background:#0b0d10;
+  }
+  .chat-user{
+    float:right;
+    background:#1f2937;
+    color:#f9fafb;
+    padding:8px 12px;
+    border-radius:16px;
+    max-width:80%;
+    clear:both;
+  }
+  .chat-ai{
+    float:left;
+    background:#15181d;
+    color:#e5e7eb;
+    padding:8px 12px;
+    border-radius:16px;
+    max-width:80%;
+    clear:both;
+  }
+  #chat-input-area{
+    display:flex;
+    border-top:1px solid var(--border);
+  }
+  #chat-input{
+    flex:1;
+    border:none;
+    background:#0f1217;
+    color:#f3f4f6;
+    padding:10px;
+  }
+  #chat-send{
+    background:#1f2937;
+    color:white;
+    border:none;
+    padding:10px 14px;
+    cursor:pointer;
+    }
+
+    /* ---------- BACKGROUND ART ---------- */
+    .bg-art{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      overflow:hidden;
+    }
+    .blob{
+      position:absolute;
+      width:420px;
+      height:420px;
+      border-radius:50%;
+      filter: blur(120px);
+      opacity:0.35;
+    }
+    .b1{
+      background:#6b7280;
+      top:-120px;
+      left:-120px;
+    }
+    .b2{
+      background:#374151;
+      bottom:-140px;
+      right:-120px;
+    }
+    .b3{
+      background:#1f2937;
+      top:30%;
+      right:20%;
+    }
+</style>
+
+</head>
+<body>
+  <div class="bg-art">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+</div>
+
+  <header>
+    <div style="display:flex;align-items:center;gap:250px">
+      <h1 id="site-title">S.E.A Framework</h1>
+      <nav>
+        <a href="#" data-nav="home" class="active">Home</a>
+        <a href="#" data-nav="social">Social Engineering</a>
+        <a href="#" data-nav="scada">SCADA</a>
+        <a href="#" data-nav="detection">Detection</a>
+        <a href="#" data-nav="about">About</a>
+        <!-- add this inside the existing <nav> ... </nav> -->
+        <a href="#" data-nav="ttp">TTP Nexus</a>
+
+      </nav>
+    </div>
+    <div class="header-actions">
+      <button class="btn secondary" id="edit-dashboard" style="display:none">Edit</button>
+      <button class="btn" id="authBtn">Account ▾</button>
+      <div id="userDisplay" style="color:white;margin-left:8px;font-weight:600"></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- HOME -->
+    <section class="card view" id="view-home">
+      <h2>{{ dashboard_content.title }}</h2>
+      <p class="small" id="home-sub">{{ dashboard_content.description }}</p>
+      <hr style="margin:16px 0;">
+      <div style="text-align:center;margin:30px auto;max-width:750px">
+        <h3 style="margin-bottom:10px;color:#eceef2">Welcome to the Social Engineering Attack Framework</h3>
+        <p class="small">This framework empowers organizations to detect, map, and defend against social engineering and industrial control attacks. It combines phishing URL detection, SCADA anomaly monitoring, and AI-driven awareness.</p>
+        <div style="margin-top:24px">
+          <button class="btn" onclick="navigateTo('detection')">Go to Detection</button>
+          <button class="btn secondary" onclick="document.getElementById('chat-bubble').click()">Ask AI</button>
+        </div>
+      </div>
+    </section>
+    <section class="card view" id="view-ttp" style="display:none">
+      <h2>TTP Nexus — Attack ↔ Tactics ↔ Defenses</h2>
+      <p class="small">Explore mapped relationships between social engineering attack types, typical tactics used, and recommended defensive measures.</p>
+      <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:260px;max-width:320px">
+          <label class="small">Filter by attack type</label>
+          <select id="ttp-filter" class="input">
+            <option value="all">All attack types</option>
+          </select>
+        </div>
+        
+        <div style="flex:2;min-width:260px">
+          <label class="small">Search tactics or defenses</label>
+          <input id="ttp-search" class="input" placeholder="Search by keyword (e.g. 'phishing', 'impersonation', 'MFA')">
+        </div>
+        <div style="min-width:160px;align-self:end">
+          <button class="btn" id="ttp-reset">Reset</button>
+        </div>
+      </div>
+
+      <hr style="margin:14px 0;">
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:18px">
+        <!-- Left: list of attack types (cards) -->
+        <div id="ttp-list" style="display:flex;flex-direction:column;gap:10px">
+          <!-- javascript will populate items here -->
+        </div>
+
+    <!-- Right: selected attack details -->
+        <div style="position:relative">
+          <div class="card" style="padding:14px;height:100%">
+            <h3 id="ttp-title">Select an attack</h3>
+            <div id="ttp-details" class="small" style="margin-top:8px">
+              <em>Select an attack from the list to view its tactics and defensive measures.</em>
+            </div>
+            
+            <hr style="margin:12px 0;">
+            <div>
+              <h4 style="margin:6px 0">Tactics</h4>
+              <ul id="ttp-tactics" class="small" style="margin-left:16px"></ul>
+              <h4 style="margin:6px 0;margin-top:12px">Defensive Measures</h4>
+              <ul id="ttp-defenses" class="small" style="margin-left:16px"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    
+    <!-- SOCIAL -->
+    <section class="card view" id="view-social" style="display:none">
+
+<h2>Social Engineering Attacks</h2>
+
+<p class="small">
+Social engineering is a cyberattack technique that manipulates human psychology rather than exploiting
+technical vulnerabilities. Attackers use deception, trust, urgency, or fear to trick individuals into
+revealing confidential information, clicking malicious links, or performing actions that compromise
+security. Because these attacks target people instead of systems, they are often very difficult to
+detect using traditional security tools.
+</p>
+
+<p class="small">
+Organizations worldwide suffer data breaches, financial fraud, and system compromises due to social
+engineering attacks. These attacks are frequently used as the initial entry point for larger cyber
+operations such as ransomware deployment, corporate espionage, or infrastructure disruption.
+</p>
+
+
+<h3>How Social Engineering Attacks Work</h3>
+
+<ol class="small">
+<li>
+<b>Information Gathering (Reconnaissance)</b><br>
+Attackers research their targets to gather useful information. This may include employee names,
+organizational structure, email formats, job roles, or personal data obtained from social media,
+company websites, or leaked databases.
+</li>
+
+<li>
+<b>Initial Contact</b><br>
+The attacker contacts the victim using email, phone calls, SMS messages, or social media platforms.
+They often impersonate trusted individuals such as IT staff, managers, banks, or government agencies.
+</li>
+
+<li>
+<b>Psychological Manipulation</b><br>
+Attackers exploit psychological triggers like urgency, authority, curiosity, or fear to convince
+victims to act quickly without verifying the request.
+</li>
+
+<li>
+<b>Exploitation</b><br>
+The victim unknowingly provides sensitive data, downloads malware, transfers money, or grants access
+to internal systems.
+</li>
+
+<li>
+<b>Attack Execution</b><br>
+Once attackers obtain credentials or system access, they can steal data, escalate privileges,
+deploy ransomware, or conduct further attacks inside the network.
+</li>
+</ol>
+
+
+<h3>Common Social Engineering Attack Types</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:12px">
+
+<div class="card">
+<b>Phishing</b>
+<p class="small">
+Phishing attacks use fraudulent emails or websites designed to look like legitimate services.
+Victims are tricked into entering usernames, passwords, or financial information into fake login pages.
+</p>
+</div>
+
+<div class="card">
+<b>Vishing (Voice Phishing)</b>
+<p class="small">
+Attackers use phone calls to impersonate trusted organizations such as banks, technical support,
+or government agencies in order to obtain confidential information from victims.
+</p>
+</div>
+
+<div class="card">
+<b>Smishing (SMS Phishing)</b>
+<p class="small">
+Fraudulent SMS messages containing malicious links or phone numbers are sent to victims. These
+messages often create urgency by claiming account issues or delivery problems.
+</p>
+</div>
+
+<div class="card">
+<b>Impersonation / Pretexting</b>
+<p class="small">
+Attackers pretend to be employees, vendors, or executives to request sensitive data, passwords,
+or financial transfers from victims inside an organization.
+</p>
+</div>
+
+<div class="card">
+<b>Baiting</b>
+<p class="small">
+Baiting attacks lure victims with tempting offers such as free downloads, prizes, or infected USB
+devices. When victims interact with the bait, malware is installed or data is stolen.
+</p>
+</div>
+
+<div class="card">
+<b>Tailgating</b>
+<p class="small">
+An attacker gains unauthorized physical access to secure areas by following authorized employees
+through access-controlled entrances.
+</p>
+</div>
+
+</div>
+
+
+<h3>Psychological Techniques Used by Attackers</h3>
+
+<ul class="small">
+<li><b>Authority:</b> Pretending to be a manager, IT administrator, or government official.</li>
+<li><b>Urgency:</b> Creating time pressure so the victim reacts quickly without verifying the request.</li>
+<li><b>Fear:</b> Threatening account suspension, legal consequences, or financial loss.</li>
+<li><b>Curiosity:</b> Using tempting messages like "confidential salary report" or "exclusive offer".</li>
+<li><b>Trust:</b> Impersonating coworkers or known contacts.</li>
+<li><b>Reciprocity:</b> Offering something valuable to gain cooperation.</li>
+</ul>
+
+
+<h3>Example Attack Scenario</h3>
+
+<p class="small">
+An employee receives an email appearing to come from the company's IT department stating that
+their password will expire within 24 hours. The message includes a link labeled
+"Reset Password Now".
+</p>
+
+<p class="small">
+When the employee clicks the link, they are redirected to a login page that looks identical to
+the company's official portal. After entering their credentials, the attacker captures the
+username and password. The attacker then logs into the organization's system, accesses
+confidential documents, and may deploy malware within the network.
+</p>
+
+
+<h3>Impact of Social Engineering Attacks</h3>
+
+<ul class="small">
+<li>Unauthorized access to internal systems</li>
+<li>Theft of sensitive corporate or personal data</li>
+<li>Financial fraud or fraudulent wire transfers</li>
+<li>Deployment of ransomware or malware</li>
+<li>Damage to organizational reputation and trust</li>
+</ul>
+
+
+<h3>Defense Strategies</h3>
+
+<ul class="small">
+<li>Conduct regular employee cybersecurity awareness training.</li>
+<li>Implement Multi-Factor Authentication (MFA) for all sensitive systems.</li>
+<li>Use email authentication technologies such as SPF, DKIM, and DMARC.</li>
+<li>Establish verification procedures for financial or sensitive requests.</li>
+<li>Monitor login behavior and detect unusual account activity.</li>
+<li>Deploy phishing detection tools and threat intelligence systems.</li>
+<li>Restrict unnecessary access privileges using least privilege principles.</li>
+<li>Encourage employees to report suspicious emails or communications.</li>
+</ul>
+
+
+<h3>Best Practices for Employees</h3>
+
+<ul class="small">
+<li>Always verify the sender of unexpected emails or messages.</li>
+<li>Do not click unknown links or download attachments from suspicious sources.</li>
+<li>Confirm unusual requests with the sender through another communication channel.</li>
+<li>Never share passwords, OTP codes, or sensitive information via email or phone.</li>
+<li>Report suspected phishing attempts to the organization's security team.</li>
+</ul>
+
+</section>
+
+    <!-- SCADA -->
+    <section class="card view" id="view-scada" style="display:none">
+
+<h2>SCADA / Industrial Control System Security</h2>
+
+<p class="small">
+Supervisory Control and Data Acquisition (SCADA) systems are used to monitor and control industrial
+processes in critical infrastructure such as power plants, water treatment facilities, oil and gas
+pipelines, manufacturing systems, and transportation networks. These systems collect data from sensors
+and devices and allow operators to control industrial equipment remotely.
+</p>
+
+<p class="small">
+Because SCADA systems directly control physical processes, successful cyberattacks can lead to serious
+consequences including operational disruption, equipment damage, environmental harm, and threats to
+public safety. Historically these systems were isolated from the internet, but modern connectivity
+and remote management capabilities have introduced new cybersecurity risks.
+</p>
+
+
+<h3>Core Components of SCADA Systems</h3>
+
+<ul class="small">
+<li><b>Human Machine Interface (HMI):</b> The interface used by operators to monitor and control industrial processes.</li>
+<li><b>Programmable Logic Controllers (PLCs):</b> Industrial computers that control machinery and physical processes.</li>
+<li><b>Remote Terminal Units (RTUs):</b> Devices that collect sensor data and send it to the central SCADA system.</li>
+<li><b>Communication Networks:</b> Industrial communication protocols such as Modbus, DNP3, and OPC used to exchange data.</li>
+<li><b>SCADA Servers:</b> Central systems responsible for collecting data, processing commands, and maintaining system control.</li>
+</ul>
+
+
+<h3>How SCADA Systems Operate</h3>
+
+<ol class="small">
+<li><b>Data Collection:</b> Sensors and industrial devices collect operational data such as temperature, pressure, or voltage.</li>
+<li><b>Data Transmission:</b> The collected data is transmitted through industrial communication protocols to SCADA servers.</li>
+<li><b>Data Processing:</b> The SCADA system analyzes and stores operational data.</li>
+<li><b>Operator Monitoring:</b> Operators view system status and alerts through the HMI dashboard.</li>
+<li><b>Control Commands:</b> Operators send commands back to PLCs or RTUs to control machinery or adjust operations.</li>
+</ol>
+
+
+<h3>Common SCADA Security Threats</h3>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:12px">
+
+<div class="card">
+<b>Unauthorized Network Access</b>
+<p class="small">
+Attackers gain access to industrial networks through compromised credentials, insecure remote access,
+or poorly configured VPN connections.
+</p>
+</div>
+
+<div class="card">
+<b>Malware and Ransomware</b>
+<p class="small">
+Malware infections can disrupt industrial processes, encrypt operational data, or spread through
+connected systems affecting multiple facilities.
+</p>
+</div>
+
+<div class="card">
+<b>Protocol Exploitation</b>
+<p class="small">
+Industrial protocols such as Modbus and DNP3 were not originally designed with security features,
+making them vulnerable to command injection and data manipulation.
+</p>
+</div>
+
+<div class="card">
+<b>Insider Threats</b>
+<p class="small">
+Employees or contractors with legitimate access may intentionally or accidentally compromise SCADA
+systems through misuse or configuration errors.
+</p>
+</div>
+
+<div class="card">
+<b>Supply Chain Attacks</b>
+<p class="small">
+Attackers may compromise third-party vendors or software updates used within industrial systems.
+</p>
+</div>
+
+<div class="card">
+<b>Remote Access Exploitation</b>
+<p class="small">
+Poorly secured remote access tools can allow attackers to control industrial equipment from outside
+the organization.
+</p>
+</div>
+
+</div>
+
+
+<h3>Real World SCADA Cyber Incidents</h3>
+
+<ul class="small">
+<li>
+<b>Stuxnet (2010):</b> One of the most famous cyberattacks targeting industrial systems.
+It infected Iranian nuclear centrifuges and caused physical damage by manipulating PLC instructions.
+</li>
+
+<li>
+<b>Ukraine Power Grid Attack (2015):</b> Cyber attackers gained access to energy control systems and
+remotely shut down electricity for thousands of customers.
+</li>
+
+<li>
+<b>Triton Malware (2017):</b> Targeted industrial safety systems used in oil and gas facilities,
+posing significant risks to worker safety.
+</li>
+</ul>
+
+
+<h3>Potential Impact of SCADA Attacks</h3>
+
+<ul class="small">
+<li>Shutdown of critical infrastructure such as power grids or water systems</li>
+<li>Damage to industrial machinery and operational equipment</li>
+<li>Environmental disasters caused by system manipulation</li>
+<li>Large-scale financial losses and operational downtime</li>
+<li>Threats to public safety and national security</li>
+</ul>
+
+
+<h3>Defensive Security Measures</h3>
+
+<ul class="small">
+<li><b>Network Segmentation:</b> Separate operational technology (OT) networks from IT networks.</li>
+<li><b>Access Control:</b> Implement strong authentication and role-based access controls.</li>
+<li><b>Patch Management:</b> Regularly update firmware, PLC software, and operating systems.</li>
+<li><b>Industrial Intrusion Detection Systems:</b> Monitor network traffic for abnormal behavior.</li>
+<li><b>Secure Remote Access:</b> Use VPNs and multi-factor authentication for remote connections.</li>
+<li><b>Continuous Monitoring:</b> Track system logs and anomalies within industrial networks.</li>
+<li><b>Backup and Recovery:</b> Maintain secure backups to recover quickly from ransomware attacks.</li>
+</ul>
+
+
+<h3>Best Practices for Industrial Cybersecurity</h3>
+
+<ul class="small">
+<li>Conduct regular cybersecurity risk assessments for industrial environments.</li>
+<li>Train operational staff on cybersecurity awareness and incident response.</li>
+<li>Disable unused services and ports on industrial devices.</li>
+<li>Implement strict physical security for critical control systems.</li>
+<li>Use secure gateways when connecting industrial systems to external networks.</li>
+</ul>
+
+</section>
+
+    <!-- DETECTION -->
+    <section class="card view" id="view-detection" style="display:none">
+      <h2>Detection</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Phishing URL Detector</h3>
+          <p class="small">Enter a suspicious URL and let the trained ML model analyze it.</p>
+          <input id="phish-url" class="input" placeholder="https://example.com" />
+          <div class="actions">
+            <button class="btn" id="btn-check-url">Check URL</button>
+            <button class="btn secondary" id="btn-clear-url">Clear</button>
+            <a href="{{ url_for('show_map') }}" class="btn btn-primary"
+             style="background-color:#6a7686; border:none; padding:10px 20px; border-radius:8px; margin-left: 10px; text-decoration: none; font-size: 14px;">
+               View Threat Map
+          </a>
+          </div>
+          <div id="phish-result" style="margin-top:10px;font-weight:600"></div>
+        </div>
+
+        
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="card view" id="view-about" style="display:none">
+      <h2>About S.E.A. Framework</h2>
+      <p class="small"><p>In today’s cyber landscape, humans remain the most vulnerable link. S.E.A.F is designed to help organizations protect themselves from the wide variety of social engineering attacks that trick people into giving away sensitive information or access.</p>
+      <p>Our framework combines advanced machine learning techniques with real-time threat intelligence to detect and prevent attacks like phishing, vishing, impersonation, and more. It also integrates security monitoring for critical infrastructure systems, providing anomaly detection for operational environments such as SCADA.</p>
+      <ul class="mid">
+        <li>A unified dashboard to monitor live cyber threats targeting people and technology.</li>
+        <li>Powerful phishing detection tools that analyze URLs to stop malicious attacks before damage occurs.</li>
+        <li>AI-powered assistance that guides users on how to recognize and respond to threats.</li>
+        <li>Secure user management for controlled access to security features.</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Account modal -->
+  <div id="auth-panel" class="modal-backdrop">
+    <div class="modal">
+      <h3>Account</h3>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn" id="open-register">Register</button>
+        <button class="btn secondary" id="open-login-user">Login as User</button>
+        <button class="btn secondary" id="open-login-admin">Login as Admin</button>
+        <button class="btn" id="btn-logout" style="display:none;background:#ef4444">Logout</button>
+      </div>
+      <hr>
+      <div id="register-form" style="display:none">
+        <h4>Create Account</h4>
+        <label>Username</label><input id="reg-username" class="input">
+        <label>Password</label><input id="reg-password" type="password" class="input">
+        <label>Role</label><select id="reg-role" class="input"><option value="user">User</option><option value="admin">Admin</option></select>
+        <div style="margin-top:12px"><button class="btn" id="reg-submit">Register</button></div>
+        <div id="reg-msg" class="small"></div>
+      </div>
+      <div id="login-form" style="display:none">
+        <h4>Login</h4>
+        <label>Username</label><input id="login-username" class="input">
+        <label>Password</label><input id="login-password" type="password" class="input">
+        <div style="margin-top:12px"><button class="btn" id="login-submit">Login</button></div>
+        <div id="login-msg" class="small"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Assistant -->
+  <div id="chat-bubble">💬</div>
+  <div id="chat-window">
+    <div id="chat-head"><div>AI Assistant</div><button id="chat-close" style="background:none;color:white;border:none;font-size:18px">✕</button></div>
+    <div id="chat-body"></div>
+    <div id="chat-input-area"><input id="chat-input" placeholder="Ask about S.E.A.F"><button id="chat-send">Send</button></div>
+  </div>
+
+  <script>
+  // simple navigation
+  const views=document.querySelectorAll('.view');
+  function navigateTo(k){views.forEach(v=>v.style.display='none');document.querySelectorAll('[data-nav]').forEach(a=>a.classList.remove('active'));document.querySelectorAll('[data-nav="'+k+'"]').forEach(a=>a.classList.add('active'));const el=document.getElementById('view-'+k);if(el)el.style.display='block';}
+  document.querySelectorAll('[data-nav]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();navigateTo(a.getAttribute('data-nav'));}));
+  navigateTo('home');
+
+  async function postJson(u,d){const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});return {ok:r.ok,data:await r.json()};}
+  async function getJson(u){const r=await fetch(u);return await r.json();}
+
+  // AI chat
+  const chatWin=document.getElementById('chat-window'),chatB=document.getElementById('chat-bubble'),chatI=document.getElementById('chat-input'),chatBod=document.getElementById('chat-body');
+  chatB.onclick=()=>chatWin.style.display='flex';
+  document.getElementById('chat-close').onclick=()=>chatWin.style.display='none';
+  function appendChat(s,t){const d=document.createElement('div');d.className='chat-row';const p=document.createElement('div');p.className=s==='user'?'chat-user':'chat-ai';p.textContent=t;d.appendChild(p);chatBod.appendChild(d);chatBod.scrollTop=chatBod.scrollHeight;}
+  document.getElementById('chat-send').onclick=async()=>{const msg=chatI.value.trim();if(!msg)return;appendChat('user',msg);chatI.value='';appendChat('ai','Thinking…');const r=await postJson('/chat_ai',{message:msg});chatBod.lastChild.remove();appendChat('ai',r.ok&&r.data.reply?r.data.reply:'Error');};
+ 
+  
+
+  // Detection
+ 
+
+document.getElementById('btn-check-url').onclick = async () => {
+  const url = document.getElementById('phish-url').value.trim();
+  const resultDiv = document.getElementById('phish-result');
+  if (!url) {
+    resultDiv.textContent = "⚠️ Please enter a URL.";
+    return;
+  }
+
+  resultDiv.innerHTML = "⏳ Checking...";
+  try {
+    const response = await fetch('/check_url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      resultDiv.innerHTML = `<span style="color:red;">❌ ${data.error}</span>`;
+    } else {
+      const color = data.status === "Safe" ? "green" : "red";
+      resultDiv.innerHTML = `
+        <div style="margin-top:8px">
+          <b style="color:${color};font-size:17px;">${data.status}</b><br>
+          <small>🔒 Safe Confidence: ${data.safe_confidence}% | ⚠️ Phishing Confidence: ${data.phishing_confidence}%</small><br>
+          <span style="font-size:14px;">${data.message}</span>
+        </div>`;
+    }
+  } catch (err) {
+    console.error(err);
+    resultDiv.innerHTML = `<span style="color:red;">⚠️ Error checking URL.</span>`;
+  }
+};
+
+
+document.getElementById('btn-clear-url').onclick = () => {
+  document.getElementById('phish-url').value = '';
+  document.getElementById('phish-result').textContent = '';
+};
+
+
+  // ... existing script above (navigation, chat, detection) ...
+
+  // -----------------------
+  // AUTHENTICATION LOGIC
+  // -----------------------
+  const authPanel = document.getElementById('auth-panel');
+  const authBtn = document.getElementById('authBtn');
+  const btnLogout = document.getElementById('btn-logout');
+  const regForm = document.getElementById('register-form');
+  const loginForm = document.getElementById('login-form');
+  const regSubmit = document.getElementById('reg-submit');
+  const loginSubmit = document.getElementById('login-submit');
+  const userDisplay = document.getElementById('userDisplay');
+
+  let currentUser = null;
+
+  // Open modal
+  authBtn.onclick = () => {
+    authPanel.style.display = 'flex';
+    regForm.style.display = 'none';
+    loginForm.style.display = 'none';
+    document.getElementById('btn-logout').style.display = currentUser ? 'block' : 'none';
+  };
+
+  // Close modal when background clicked
+  authPanel.onclick = (e) => {
+    if (e.target === authPanel) authPanel.style.display = 'none';
+  };
+
+  // Switch forms
+  document.getElementById('open-register').onclick = () => {
+    regForm.style.display = 'block';
+    loginForm.style.display = 'none';
+  };
+  document.getElementById('open-login-user').onclick = () => {
+    regForm.style.display = 'none';
+    loginForm.style.display = 'block';
+  };
+  document.getElementById('open-login-admin').onclick = () => {
+    regForm.style.display = 'none';
+    loginForm.style.display = 'block';
+  };
+
+  // Register
+  regSubmit.onclick = async () => {
+    const username = document.getElementById('reg-username').value.trim();
+    const password = document.getElementById('reg-password').value.trim();
+    const role = document.getElementById('reg-role').value;
+    const res = await fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, role })
+    });
+    const data = await res.json();
+    document.getElementById('reg-msg').textContent = data.message;
+    if (data.success) {
+      alert('Registration successful! Please login.');
+      regForm.style.display = 'none';
+    }
+  };
+
+  // Login
+  loginSubmit.onclick = async () => {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    document.getElementById('login-msg').textContent = data.message;
+    if (data.success) {
+      currentUser = data.user;
+      userDisplay.textContent = `👤 ${currentUser.username} (${currentUser.role})`;
+      authPanel.style.display = 'none';
+      alert('Login successful!');
+    }
+  };
+
+  // Logout
+  btnLogout.onclick = async () => {
+    await fetch('/logout', { method: 'POST' });
+    currentUser = null;
+    userDisplay.textContent = '';
+    alert('Logged out successfully.');
+    authPanel.style.display = 'none';
+  };
+
+
+/* ---------- TTP Nexus (data + UI) ---------- */
+const ttpData = [
+  {
+    id: "phishing",
+    name: "Phishing",
+    summary: "Deceptive emails or websites that trick users into submitting credentials or clicking malicious links.",
+    tactics: [
+      "Email impersonation using lookalike domains",
+      "Credential harvest pages (fake login forms)",
+      "Malicious attachments with macros"
+    ],
+    defenses: [
+      "Employee phishing awareness training",
+      "Email authentication (SPF/DKIM/DMARC)",
+      "Link preview and sandboxing",
+      "Multi-factor authentication (MFA)"
+    ]
+  },
+  {
+    id: "vishing",
+    name: "Vishing (Voice phishing)",
+    summary: "Social engineering via phone calls to coerce victims into revealing sensitive info or performing actions.",
+    tactics: [
+      "Caller ID spoofing to appear as trusted source",
+      "Urgent authority tone to create pressure",
+      "Request for OTP or password over phone"
+    ],
+    defenses: [
+      "Verification procedures for sensitive requests",
+      "Staff training tailored for phone-based attacks",
+      "Call logging and callback policies"
+    ]
+  },
+  {
+    id: "smishing",
+    name: "Smishing (SMS phishing)",
+    summary: "Malicious SMS messages with links or prompts to call fraudulent numbers.",
+    tactics: [
+      "Shortened URLs to hide destination",
+      "Incentive-based lures (prize/receipt)",
+      "Fake service alerts"
+    ],
+    defenses: [
+      "User training on suspicious SMS",
+      "SMS filtering and URL rewriting",
+      "Out-of-band verification"
+    ]
+  },
+  {
+    id: "baiting",
+    name: "Baiting",
+    summary: "Scammers lure victims with tempting offers or physical media (like infected USB drives) to get them to reveal info or install malware.",
+    tactics: [
+        "Leaving malware-infected USBs in public places",
+        "Pop-up ads for 'free downloads' with malware",
+        "Fake prize or giveaway announcements"
+    ],
+    defenses: [
+        "User education on suspicious media or offers",
+        "Disable auto-run for external drives",
+        "Regular malware scanning"
+    ]
+  },
+  {
+    id: "tailgating",
+    name: "Tailgating",
+    summary: "Attackers gain physical access to secure areas by following authorized personnel without permission.",
+    tactics: [
+        "Following employee through secured entry",
+        "Pretending to be a delivery person or vendor",
+        "Piggybacking during busy hours"
+    ],
+    defenses: [
+        "Strict physical access control policies",
+        "Employee awareness and reporting",
+        "Use of security badges and turnstiles"
+    ]
+  },
+  {
+    id: "business_email_compromise",
+    name: "Business Email Compromise (BEC)",
+    summary: "Adversaries compromise or impersonate business email accounts to fraudulently request payments or data.",
+    tactics: [
+        "Impersonation of executives to request wire transfers",
+        "Fake change-of-bank instructions",
+        "Compromised supplier/vendor correspondence"
+    ],
+    defenses: [
+        "Multi-factor authentication (MFA) on business email",
+        "Employee verification procedures for financial requests",
+        "Regular password audits and phishing training"
+    ]
+  },
+  {
+    id: "shoulder_surfing",
+    name: "Shoulder Surfing",
+    summary: "Attackers visually observe a victim’s private information such as passwords or PINs by looking over their shoulder.",
+    tactics: [
+        "Watching entry of passwords or PINs at ATMs or computers",
+        "Using cameras or binoculars to capture sensitive info"
+    ],
+    defenses: [
+        "Privacy screens on devices",
+        "Awareness to shield input entry",
+        "CCTV monitoring in sensitive areas"
+    ]
+  },
+  {
+    id: "fake_software_updates",
+    name: "Fake Software Updates",
+    summary: "Attackers trick users into installing malware by posing as legitimate software update prompts.",
+    tactics: [
+        "Pop-up notifications urging urgent update",
+        "Emails with malicious update links",
+        "Fake update banners on websites"
+    ],
+    defenses: [
+        "Verify update sources through official channels",
+        "Use automatic trusted update mechanisms",
+        "User training not to click suspicious prompts"
+    ]
+  },
+  {
+    id: "water_holing",
+    name: "Water Holing",
+    summary: "Attackers compromise websites frequently visited by targeted victims to infect them with malware or steal info.",
+    tactics: [
+        "Injecting malicious code into trusted websites",
+        "Targeting niche industry portals or corporate sites"
+    ],
+    defenses: [
+        "Regular web app vulnerability assessments",
+        "Updated antivirus and endpoint protection",
+        "User alerts about suspicious site behavior"
+    ]
+  },
+  {
+    id: "impersonation",
+    name: "Impersonation / Pretexting",
+    summary: "Actor pretends to be colleague, vendor, or manager to request sensitive actions.",
+    tactics: [
+      "Social reconnaissance to gather context",
+      "Spoofed or similar email addresses",
+      "Requests for urgent fund transfers or data"
+    ],
+    defenses: [
+      "Strict approval workflows for fund transfers",
+      "Verify identity via separate channel",
+      "Limit data visible to support staff"
+    ]
+  }
+  
+];
+
+// UI elements
+const ttpFilter = document.getElementById('ttp-filter');
+const ttpSearch = document.getElementById('ttp-search');
+const ttpList = document.getElementById('ttp-list');
+const ttpTitle = document.getElementById('ttp-title');
+const ttpDetails = document.getElementById('ttp-details');
+const ttpTactics = document.getElementById('ttp-tactics');
+const ttpDefenses = document.getElementById('ttp-defenses');
+const ttpReset = document.getElementById('ttp-reset');
+
+// populate filter dropdown
+function populateTTPFilter(){
+  const all = ['all', ...ttpData.map(x=>x.id)];
+  // clear existing (but keep the default "all")
+  ttpFilter.innerHTML = '<option value="all">All attack types</option>';
+  ttpData.forEach(item=>{
+    const opt = document.createElement('option');
+    opt.value = item.id;
+    opt.textContent = item.name;
+    ttpFilter.appendChild(opt);
+  });
+}
+
+// render list (with optional filter/search)
+function renderTTPList(){
+  const filterVal = ttpFilter.value || 'all';
+  const q = (ttpSearch.value || '').toLowerCase().trim();
+  ttpList.innerHTML = '';
+  const items = ttpData.filter(item=>{
+    if(filterVal !== 'all' && item.id !== filterVal) return false;
+    if(!q) return true;
+    // search in name, summary, tactics, defenses
+    if(item.name.toLowerCase().includes(q) || item.summary.toLowerCase().includes(q)) return true;
+    const inT = item.tactics.some(t=>t.toLowerCase().includes(q));
+    const inD = item.defenses.some(d=>d.toLowerCase().includes(q));
+    return inT || inD;
+  });
+
+  if(items.length === 0){
+    const p = document.createElement('div');
+    p.className = 'small';
+    p.textContent = 'No matches found.';
+    ttpList.appendChild(p);
+    return;
+  }
+
+  items.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.padding = '12px';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                          <div style="font-weight:700">${item.name}</div>
+                          <div class="small" style="margin-top:6px">${item.summary}</div>
+                        </div>
+                        <div class="small muted">${item.tactics.length} tactics</div>
+                      </div>`;
+    card.onclick = ()=>showTTPDetails(item.id);
+    ttpList.appendChild(card);
+  });
+}
+
+// show details for selected attack
+function showTTPDetails(id){
+  const item = ttpData.find(x=>x.id === id);
+  if(!item) return;
+  ttpTitle.textContent = item.name;
+  ttpDetails.innerHTML = `<div class="small">${item.summary}</div>`;
+  // tactics
+  ttpTactics.innerHTML = '';
+  item.tactics.forEach(t=>{
+    const li = document.createElement('li'); li.textContent = t; ttpTactics.appendChild(li);
+  });
+  // defenses
+  ttpDefenses.innerHTML = '';
+  item.defenses.forEach(d=>{
+    const li = document.createElement('li'); li.textContent = d; ttpDefenses.appendChild(li);
+  });
+}
+
+// reset controls
+function resetTTP(){
+  ttpFilter.value = 'all';
+  ttpSearch.value = '';
+  renderTTPList();
+  ttpTitle.textContent = 'Select an attack';
+  ttpDetails.innerHTML = '<em>Select an attack from the list to view its tactics and defensive measures.</em>';
+  ttpTactics.innerHTML = '';
+  ttpDefenses.innerHTML = '';
+}
+
+// wire events
+ttpFilter.addEventListener('change', renderTTPList);
+ttpSearch.addEventListener('input', renderTTPList);
+ttpReset.addEventListener('click', resetTTP);
+
+// init on load (if view exists)
+window.addEventListener('load', ()=>{
+  if(document.getElementById('view-ttp')){
+    populateTTPFilter();
+    renderTTPList();
+  }
+});
+  </script>
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">S.E.A.F</div>
+      <div class="footer-text">
+        © 2024–2026 Social Engineering Attack Framework<br>
+        All rights reserved.
+      </div>
+    </div>
+
+    <div class="footer-links">
+  <a href="/contact">Contact Us</a>
+  <span>|</span>
+  <a href="/terms">Terms of Use</a>
+  <span>|</span>
+  <a href="/privacy">Privacy Policy</a>
+  <span>|</span>
+  <a href="/docs">Documentation</a>
+</div>
+
+
+
+    <div class="footer-social">
+      <a href="#" title="X">✕</a>
+      <a href="#" title="GitHub">🐙</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us — SEAF</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0e1015, #141822);
+      color: #e6e6e6;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ---------- BRANDING ---------- */
+    .brand {
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .brand span {
+      font-size: 13px;
+      color: #9aa0a6;
+      letter-spacing: 1px;
+    }
+
+    /* ---------- CARD ---------- */
+    .contact-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 42px 52px;
+      max-width: 480px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-card h2 {
+      text-align: center;
+      margin-bottom: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .section {
+      margin-top: 26px;
+    }
+
+    .section h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: #9aa0a6;
+      margin-bottom: 10px;
+    }
+
+    .section p {
+      margin: 6px 0;
+      font-size: 15px;
+      color: #d0d0d0;
+    }
+
+    .section a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .section a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---------- BUTTON ---------- */
+    .home-btn {
+      display: block;
+      margin: 36px auto 0;
+      padding: 12px 30px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .home-btn:hover {
+      background: #e6e6e6;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SEAF Branding -->
+  <div class="brand">
+    <h1>SEAF</h1>
+    <span>Social Engineering Attack Framework</span>
+  </div>
+
+  <!-- Contact Card -->
+  <div class="contact-card">
+    <h2>Contact Us</h2>
+
+    <div class="section">
+      <h3>General Contact</h3>
+      <p>
+        Email:
+        <a href="mailto:support@seaf-project.com">support@seaf-project.com</a>
+      </p>
+      <p>For academic or research inquiries only.</p>
+    </div>
+
+    <div class="section">
+      <h3>Development Team</h3>
+      <p>
+        Aryan Pal — <strong>Developer</strong><br>
+        <a href="mailto:palaryan6450@gmail.com">palaryan6450@gmail.com</a>
+      </p>
+      <p>
+        Gannon Mossang — <strong>Researcher</strong><br>
+        <a href="mailto:anonmossang07@gmail.com">anonmossang07@gmail.com</a>
+      </p>
+    </div>
+
+    <button class="home-btn" onclick="window.location.href='/'">
+      ← Back to Home
+    </button>
+  </div>
+
+</body>
+</html>
