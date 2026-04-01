@@ -74,8 +74,6 @@ def extract_url_features(url: str):
     import re
     import tldextract
     from urllib.parse import urlparse
-
-    # Example numeric feature extraction (same as in training)
     parsed = urlparse(url)
     domain_info = tldextract.extract(url)
     features = {
